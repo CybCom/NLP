@@ -6,7 +6,7 @@ This project is published under GPL v3 protocol.
 
 ## Project Author
 
-### CybCom & 
+### CybCom & Zhou
 
 ## Preparation
 
