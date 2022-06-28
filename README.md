@@ -2,7 +2,13 @@
 
 Project files for NLP proj of Fundamentals of Data Science 2022 spring, NJU.
 
-## Preparation Project
+This project is published under GPL v3 protocol.
+
+## Project Author
+
+### CybCom & 
+
+## Preparation
 
 ### ML&DL
 
@@ -19,3 +25,19 @@ https://www.zhihu.com/question/20899988
 http://c.biancheng.net/python_spider/what-is-spider.html
 
 https://zhuanlan.zhihu.com/p/73742321
+
+
+## Structure
+
+### Data Source
+
+Given sheet for training.
+
+Web crawler from gov website cluster
+
+### Data Process
+
+Preliminary filtering with logical judgment and string similarity.
+
+Use word2vec with CNN for second classification .
+
