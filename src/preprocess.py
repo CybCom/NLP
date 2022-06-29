@@ -36,34 +36,29 @@ def read_excel(filename, sheet_name):
 
 def extract_label(data, key):
     """
-    Extract the values of colum key in data.
+    Extract the values of colum key in data. If any value is None, append it with "".
     :param data: data representative a sheet, returned by read_excel.
     :param key: the column label.
     :return: a list of values in the column of the label.
     """
     sentences = []
     for vector in data:
-        sentences.append(vector[key])
+        value = vector[key]
+        sentences.append(value if value is not None else "")
     print("Column extracted with key \"" + key + "\"")
     return sentences
 
 
-"""
-Preload the stopwords to avoid to much IO operation.
-"""
-stopwords = set(open(root_path + data_path + "stopwords.txt", mode='r').read().split())
-
-
-def segment_and_clear(corpus):
+def segment(corpus):
     """
-    Do the segmentation and remove stop words, according to HIT Stop Word List.
+    Do the segmentation. No need to remove any words, for text is very short.
     :param corpus: the list of raw texts, extracted from the sheet.
     :return: list that has lists of words processed.
     """
     return_list = []
     for text in corpus:
-        return_list.append(list(filter(lambda w: False if w in stopwords else True, jieba.lcut(text))))
-    print("Segmentation and remove stop words finished.")
+        return_list.append(jieba.lcut(text))
+    print("Segmentation finished.")
     return return_list
 
 
@@ -78,7 +73,8 @@ def train_word2vec_model(corpus_words, vector_size=100, window=5, min_count=1, w
     """
     sub_start = time.time()
 
-    model = Word2Vec(sentences=corpus_words, vector_size=vector_size, window=window, min_count=min_count, workers=workers)
+    model = Word2Vec(sentences=corpus_words, vector_size=vector_size, window=window, min_count=min_count,
+                     workers=workers)
     model.save(root_path + output_path + "word2vec.model")
     model.wv.save_word2vec_format(root_path + output_path + "word2vec_format.model")
 
@@ -88,4 +84,4 @@ def train_word2vec_model(corpus_words, vector_size=100, window=5, min_count=1, w
 
 if __name__ == '__main__':
     start = time.time()
-    train_word2vec_model(segment_and_clear(extract_label(read_excel("news.xlsx", "Sheet2"), "text1")))
+    train_word2vec_model(segment(extract_label(read_excel("news.xlsx", "Sheet2"), "text1")))

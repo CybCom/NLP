@@ -1,3 +1,3 @@
-root_path = "/home/kitagrace/NLP"
-data_path = "/data/"
-output_path = "/output/"
+root_path = "D:\\NLP\\"
+data_path = "\data\\"
+output_path = "\output\\"

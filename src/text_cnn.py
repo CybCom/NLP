@@ -3,10 +3,9 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from tensorflow import keras
-from tensorflow.keras import Input, Model
-from tensorflow.keras.layers import Embedding, MaxPooling1D, concatenate, Flatten, Dropout, Dense, Conv1D
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.utils import to_categorical
+from keras import Input, Model
+from keras.layers import Embedding, MaxPooling1D, concatenate, Flatten, Dropout, Dense, Conv1D
+from keras.utils import to_categorical, pad_sequences
 
 from sklearn import metrics
 
@@ -110,28 +109,28 @@ def train_text_cnn(embedding_matrix, x, y, num_classes):
     # 卷积池化层 词窗大小分别为3,4,5
     cnn1 = Conv1D(embedding_vector_dims, 2, padding='same', strides=1, activation='relu')(embed)
     print(cnn1)
-    cnn1 = MaxPooling1D(pool_size=20)(cnn1)
+    cnn1 = MaxPooling1D(pool_size=4)(cnn1)
     print(cnn1)
     cnn2 = Conv1D(embedding_vector_dims, 3, padding='same', strides=1, activation='relu')(embed)
-    cnn2 = MaxPooling1D(pool_size=19)(cnn2)
+    cnn2 = MaxPooling1D(pool_size=3)(cnn2)
     print(cnn2)
     cnn3 = Conv1D(embedding_vector_dims, 4, padding='same', strides=1, activation='relu')(embed)
-    cnn3 = MaxPooling1D(pool_size=18)(cnn3)
+    cnn3 = MaxPooling1D(pool_size=2)(cnn3)
     print(cnn3)
 
     # 合并三个模型的输出向量
-    cnn = concatenate([cnn1, cnn2, cnn3], axis=-1)
+    cnn = concatenate([cnn1, cnn2, cnn3], axis=-2)
     flat = Flatten()(cnn)
-    drop = Dropout(0.2)(flat)
+    drop = Dropout(0.5)(flat)
     main_output = Dense(num_classes, activation='softmax')(drop)
     print("here!")
     # compile a model.
     model = Model(inputs=main_input, outputs=main_output)
-    adam = keras.optimizers.Adam(learning_rate=0.0005, decay=0.000005)
+    adam = keras.optimizers.Adam(learning_rate=0.0001, decay=0.000005)
     model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 
     # train the model.
-    model.fit(x_train, y_train, batch_size=32, epochs=150, validation_split=0.20, verbose=2)
+    model.fit(x_train, y_train, batch_size=100, epochs=1500, validation_split=0.20, verbose=2)
     model.save(root_path + output_path + "text_cnn.model")
     return model, x_test, y_test
 

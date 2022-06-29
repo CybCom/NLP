@@ -4,6 +4,8 @@ Project files for NLP proj of Fundamentals of Data Science 2022 spring, NJU.
 
 This project is published under GPL v3 protocol.
 
+## WARNING! Please REMOVE files in dir "output" before commit, or it will exceed capacity limit of github.
+
 ## Project Author
 
 ### CybCom & Zhou
