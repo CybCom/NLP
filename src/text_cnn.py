@@ -130,7 +130,7 @@ def train_text_cnn(embedding_matrix, x, y, num_classes):
     model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 
     # train the model.
-    model.fit(x_train, y_train, batch_size=100, epochs=1500, validation_split=0.20, verbose=2)
+    model.fit(x_train, y_train, batch_size=100, epochs=150, validation_split=0.20, verbose=2)
     model.save(root_path + output_path + "text_cnn.model")
     return model, x_test, y_test
 

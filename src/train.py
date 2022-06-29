@@ -16,10 +16,9 @@ if __name__ == '__main__':
     corpus_words_2 = segment(corpus_2)
     corpus_words_3 = segment(corpus_3)
 
-    all_corpus_words = corpus_words_3 # list(map(lambda a, b, c: a + b + c, corpus_words_1, corpus_words_2, corpus_words_3))
+    all_corpus_words = list(map(lambda a, b, c: a + b + c, corpus_words_1, corpus_words_2, corpus_words_3))
 
     print(all_corpus_words)
-
     # compute Word2vec vectors.
     w2v_model = train_word2vec_model(all_corpus_words, vector_size=100)
 
